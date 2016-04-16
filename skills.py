@@ -196,9 +196,30 @@ def sort_by_word_length(words):
 
         >>> sort_by_word_length(["ok", "an", "apple", "a", "day"])
         [(1, ['a']), (2, ['ok', 'an']), (3, ['day']), (5, ['apple'])]
+
+        >>> sort_by_word_length(["hello", "katie", "test", "balloonicorn"])
+        [(4, ['test']), (5, ['hello', 'katie']), (12, ['balloonicorn'])]
     """
 
-    return []
+    # create a dictionary with length as key and words as values of dict
+    # create a list of sorted dictionary keys
+    # go through sorted keys and reference dictionary to add lengths and words to new list
+
+    word_length = {}
+
+    # adds length as keys and corresponding words as values in dictionary
+    for word in words:
+        if len(word) in word_length:
+            word_length[len(word)].append(word)
+        else:
+            word_length[len(word)] = [word]
+
+    # gets and sorts dictionary keys
+    keys = sorted(word_length.keys())
+    # new list that returns keys and values as tuples
+    words_by_length = [(key, word_length[key]) for key in keys]
+
+    return words_by_length
 
 
 def get_sum_zero_pairs(numbers):
@@ -228,7 +249,27 @@ def get_sum_zero_pairs(numbers):
         [[-1, 1], [0, 0]]
     """
 
-    return []
+    # two for loops
+    # go through each possible addition and add the tuple pairs as keys in a dictionary with sum as values
+    # go through the tuples in dictionary and check if the value is 0
+    # add to list
+
+    # struggling with finding a way to remove duplicates
+    # am able to get a list of pairs that add to 0, but getting duplicates
+
+    sums = {}
+
+    for i in range(len(numbers)):
+        for j in range(len(numbers)):
+            sums[(numbers[i], numbers[j])] = numbers[i] + numbers[j]
+
+    zeros = []
+
+    for key in sums:
+        if sums[key] == 0:
+            zeros.append(list(key))
+
+    return zeros
 
 
 def kids_game(names):
@@ -268,6 +309,11 @@ def kids_game(names):
     a dictionary (with the super-fast lookup they provide) can help;
     good solutions here will definitely require a dictionary.
     """
+
+    # use dictionaries
+    # loop up last index of word and search dictionary for first index of word
+    # remove word from dictionary after it has been used?
+    # push to list and join with (" ").join method
 
     return []
 
