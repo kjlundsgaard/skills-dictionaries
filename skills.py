@@ -255,21 +255,25 @@ def get_sum_zero_pairs(numbers):
     # add to list
 
     # struggling with finding a way to remove duplicates
-    # am able to get a list of pairs that add to 0, but getting duplicates
+    # am able to get a list of pairs that add to 0, but getting duplicates...
 
     sums = {}
 
     for i in range(len(numbers)):
         for j in range(len(numbers)):
-            sums[(numbers[i], numbers[j])] = numbers[i] + numbers[j]
+            if (numbers[i] + numbers[j]) in sums:
+                sums[numbers[i] + numbers[j]].append([numbers[i], numbers[j]])
+            else:
+                sums[numbers[i] + numbers[j]] = [[numbers[i], numbers[j]]]
 
-    zeros = []
+    zeros = sums[0]
+    unique_pairs = []
 
-    for key in sums:
-        if sums[key] == 0:
-            zeros.append(list(key))
+    for pair in zeros:
+        if pair not in unique_pairs:
+            unique_pairs.append(pair)
 
-    return zeros
+    return unique_pairs
 
 
 def kids_game(names):
@@ -311,11 +315,43 @@ def kids_game(names):
     """
 
     # use dictionaries
-    # loop up last index of word and search dictionary for first index of word
+    # look up last index of word and search dictionary for first index of word
     # remove word from dictionary after it has been used?
-    # push to list and join with (" ").join method
+    # push to list
 
-    return []
+    # initialize dictionary to store the first letters with list of words
+    words_by_letter = {}
+    # establish first word as first item in names list
+    current_word = names[0]
+    # start the phrase list that will store the words in order with first item as first word in names
+    phrase = [current_word]
+    # establish a lookup_letter that will change as current_word changes
+    # it's the last letter of the word, so we can use this as a key in the dictionary to find the next word
+    lookup_letter = current_word[-1]
+
+    # create dictionary
+    for name in names:
+        if name[0] in words_by_letter:
+            words_by_letter[name[0]].append(name)
+        else:
+            words_by_letter[name[0]] = [name]
+
+    # cycling through the dictionary until a first letter has no corresponding words
+    while words_by_letter[lookup_letter] != []:
+        # store first value associated with the letter key as the next_word
+        next_word = words_by_letter[lookup_letter][0]
+        # add the next_word to the phrase list
+        phrase.append(next_word)
+        # delete the word we were using as current word from the dictionary
+        del words_by_letter[current_word[0]][0]
+        # re-bind current word to the next_word
+        current_word = next_word
+        # rebind look_up letter to last letter of current_word
+        lookup_letter = current_word[-1]
+
+    return phrase
+
+
 
 
 #####################################################################
